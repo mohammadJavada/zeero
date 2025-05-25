@@ -1,28 +1,13 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import http from "./api-slice";
 import toast from "react-hot-toast";
-import { getCookie } from "cookies-next";
-import public_http from "./public-http-service";
-import { tagTypes } from "./tag-types";
+// import { tagTypes } from "./tag-types";
 
-const fetchFn = async ({
-  url,
-  method,
-  body,
-  headers,
-  notification,
-  isPublic = false,
-}) => {
-  const accessToken = getCookie("access_token");
-  if (!accessToken && !isPublic) return;
+const fetchFn = async ({ url, method, body, headers, notification }) => {
   try {
-    const response = isPublic
-      ? await public_http[method.toLowerCase()](url, body, {
-          headers,
-        })
-      : await http[method.toLowerCase()](url, body, {
-          headers,
-        });
+    const response = await http[method.toLowerCase()](url, body, {
+      headers,
+    });
 
     const onlyShowServerMessage = notification === null || notification;
 
@@ -54,6 +39,6 @@ export const apiSlice = createApi({
 
     return fetchFn({ url, method, body, headers, notification, isPublic });
   },
-  tagTypes: tagTypes,
+  // tagTypes: tagTypes,
   endpoints: () => ({}),
 });
