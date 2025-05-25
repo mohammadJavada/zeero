@@ -12,6 +12,7 @@ function App() {
         <Route path="/" element={<Template />}>
           <Route index element={<ProjectsPage />} />
           <Route path="tasks" element={<TasksPage />} />
+          <Route path="projects" element={<ProjectsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
