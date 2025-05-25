@@ -1,7 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import http from "./api-slice";
 import toast from "react-hot-toast";
-// import { tagTypes } from "./tag-types";
+import http from "./http-service";
 
 const fetchFn = async ({ url, method, body, headers, notification }) => {
   try {
@@ -39,6 +38,5 @@ export const apiSlice = createApi({
 
     return fetchFn({ url, method, body, headers, notification, isPublic });
   },
-  // tagTypes: tagTypes,
   endpoints: () => ({}),
 });
