@@ -34,6 +34,7 @@ const TasksTable = ({
   rowClassName,
   cellClassName,
   headerClassName,
+  onStatusChange,
 }) => {
   const [statusFilter, setStatusFilter] = useState(null);
 
@@ -53,6 +54,12 @@ const TasksTable = ({
   if (!data || data.length === 0) {
     return <div className={className}>تسکی وجود ندارد .</div>;
   }
+
+  const handleStatusChange = (taskId, newStatus) => {
+    if (onStatusChange) {
+      onStatusChange(taskId, newStatus);
+    }
+  };
 
   return (
     <div className={className}>
@@ -125,7 +132,9 @@ const TasksTable = ({
         </TableHeader>
         <TableBody>
           {filteredData.map((task, index) => {
-            const rowKey = task.id ? `task-${task.id}` : `task-${index}`;
+            const rowKey = task.taskId
+              ? `task-${task.taskId}`
+              : `task-${index}`;
 
             return (
               <TableRow key={rowKey} className={rowClassName}>
@@ -138,7 +147,15 @@ const TasksTable = ({
                       className={`text-right ${cellClassName}`}
                     >
                       {column.key === "completionStatus" ? (
-                        <CheckBox checked={task.completionStatus} />
+                        <CheckBox
+                          checked={task.completionStatus}
+                          onChange={() =>
+                            handleStatusChange(
+                              task.taskId,
+                              !task.completionStatus
+                            )
+                          }
+                        />
                       ) : column.render ? (
                         column.render(task[column.key], task)
                       ) : (
