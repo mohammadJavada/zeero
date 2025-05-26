@@ -53,7 +53,7 @@ const CollapsibleSidebar = () => {
                 >
                   <span className="text-gray-200">{item.icon}</span>
                   {!isCollapsed && (
-                    <span className="ml-3 text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis">
+                    <span className="ml-3 text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis text-white">
                       {item.title}
                     </span>
                   )}
