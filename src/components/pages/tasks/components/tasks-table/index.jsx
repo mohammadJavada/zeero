@@ -1,0 +1,105 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import CheckBox from "@/components/atom/check-box/index";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MdOutlineDesktopAccessDisabled, MdModeEdit } from "react-icons/md";
+import { BiMessageDetail } from "react-icons/bi";
+import { BsTrash } from "react-icons/bs";
+
+const TasksTable = ({
+  data = [],
+  className,
+  showActions = true,
+  customColumns = [],
+  rowClassName,
+  cellClassName,
+  headerClassName,
+}) => {
+  const defaultColumns = [
+    { key: "title", label: "عنوان" },
+    { key: "text", label: "توضیحات" },
+    { key: "completionStatus", label: "وضعیت" },
+  ];
+
+  const columns = [...defaultColumns, ...customColumns];
+
+  return (
+    <div className={className}>
+      <Table>
+        <TableHeader className={headerClassName}>
+          <TableRow>
+            {columns.map((column) => (
+              <TableHead key={column.key} className="text-right">
+                {column.label}
+              </TableHead>
+            ))}
+            {showActions && (
+              <TableHead className="text-right">عملیات</TableHead>
+            )}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {data.map((task) => (
+            <TableRow key={task.id} className={rowClassName}>
+              {columns.map((column) => (
+                <TableCell
+                  key={`${task.id}-${column.key}`}
+                  className={`text-right ${cellClassName}`}
+                >
+                  {column.key === "completionStatus" ? (
+                    <CheckBox checked={task.completionStatus} />
+                  ) : column.render ? (
+                    column.render(task[column.key], task)
+                  ) : (
+                    task[column.key]
+                  )}
+                </TableCell>
+              ))}
+              {showActions && (
+                <TableCell className="text-right">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger className="!bg-transparent !border-0 !shadow-none !outline-none focus-visible:ring-0 focus-visible:ring-offset-0 !p-0">
+                      <BsThreeDotsVertical className="text-2xl" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem className="cursor-pointer flex gap-2 items-center flex-row-reverse hover:!bg-orange-200 hover:!text-orange-700">
+                        <MdOutlineDesktopAccessDisabled className="hover:!text-orange-700" />
+                        فعال / غیر فعال
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer flex gap-2 items-center flex-row-reverse hover:!bg-pink-200 hover:!text-pink-700">
+                        <BiMessageDetail className="hover:!text-pink-700" />
+                        مشاهده جزئیات
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer flex gap-2 items-center flex-row-reverse hover:!bg-blue-200 hover:!text-blue-700">
+                        <MdModeEdit className="hover:!text-blue-700" />
+                        ویرایش
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer flex gap-2 items-center flex-row-reverse hover:!bg-red-200 hover:!text-red-700">
+                        <BsTrash className="hover:!text-red-700" />
+                        حذف
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              )}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+};
+
+export default TasksTable;
