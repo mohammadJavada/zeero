@@ -8,7 +8,6 @@ const fetchFn = async ({ url, method, body, headers, notification }) => {
       headers,
     });
 
-
     const onlyShowServerMessage = notification === null || notification;
 
     if (onlyShowServerMessage && response.data?.message)
@@ -19,15 +18,13 @@ const fetchFn = async ({ url, method, body, headers, notification }) => {
       toast.success("عملیات با موفقیت انجام شد .");
     }
 
-    // Return the data directly if it's already in the correct format
     if (response.data) {
       return { data: response.data };
     }
 
-    // If response.data is undefined, return the whole response
     return { data: response };
   } catch (error) {
-    console.error('API Error:', error);
+    console.error("API Error:", error);
     return {
       error: {
         status: error?.response?.status || 500,

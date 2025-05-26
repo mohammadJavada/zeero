@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import { Switch } from "@/components/ui/switch";
+import { useDeleteTaskMutation } from "@/services/pages/tasks/index";
 
 const TasksTable = ({
   data = [],
@@ -37,6 +39,8 @@ const TasksTable = ({
   onStatusChange,
 }) => {
   const [statusFilter, setStatusFilter] = useState(null);
+
+  const [deleteTask] = useDeleteTaskMutation();
 
   const defaultColumns = [
     { key: "title", label: "عنوان" },
@@ -183,7 +187,10 @@ const TasksTable = ({
                           <MdModeEdit className="hover:!text-blue-700" />
                           ویرایش
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="cursor-pointer flex gap-2 items-center flex-row-reverse hover:!bg-red-200 hover:!text-red-700">
+                        <DropdownMenuItem
+                          className="cursor-pointer flex gap-2 items-center flex-row-reverse hover:!bg-red-200 hover:!text-red-700"
+                          onClick={() => deleteTask()}
+                        >
                           <BsTrash className="hover:!text-red-700" />
                           حذف
                         </DropdownMenuItem>

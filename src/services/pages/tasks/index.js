@@ -1,6 +1,4 @@
-// import { apiSlice } from "../api-slice";
-
-import { apiSlice } from "../../api-slice";
+import { apiSlice } from "@/services/api-slice";
 
 export const tasks = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,13 +7,21 @@ export const tasks = apiSlice.injectEndpoints({
         url: "/eb2da7a6-ff40-4962-a408-13ab027ba6be/load",
         method: "GET",
       }),
-      transformResponse: (response, meta, arg) => {
-        console.log('API Response:', response);
+
+      transformResponse: (response) => {
+        console.log("API Response:", response);
         return response;
       },
       providesTags: ["Tasks"],
     }),
+    deleteTask: builder.mutation({
+      query: () => ({
+        url: "/eb2da7a6-ff40-4962-a408-13ab027ba6be/remove",
+        method: "DELETE",
+        notification: "init",
+      }),
+    }),
   }),
 });
 
-export const { useGetTasksQuery } = tasks;
+export const { useGetTasksQuery, useDeleteTaskMutation } = tasks;

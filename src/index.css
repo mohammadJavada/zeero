@@ -51,6 +51,7 @@
 }
 
 #root {
+  direction: rtl;
   width: 100%;
 }
 

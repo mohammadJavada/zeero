@@ -39,9 +39,19 @@ const TasksPage = () => {
         headerClassName="bg-muted/50"
         rowClassName="hover:bg-muted/50"
         onStatusChange={(taskId, newStatus) => {
-          const listArray = tasks.map(task => ({
+          if (list.length) {
+            const listArray = list.map((task) => ({
+              ...task,
+              completionStatus:
+                task.taskId === taskId ? newStatus : task.completionStatus,
+            }));
+            setList(listArray);
+            return;
+          }
+          const listArray = tasks.map((task) => ({
             ...task,
-            completionStatus: task.taskId === taskId ? newStatus : task.completionStatus
+            completionStatus:
+              task.taskId === taskId ? newStatus : task.completionStatus,
           }));
           setList(listArray);
         }}
