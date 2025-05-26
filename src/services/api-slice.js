@@ -8,6 +8,7 @@ const fetchFn = async ({ url, method, body, headers, notification }) => {
       headers,
     });
 
+
     const onlyShowServerMessage = notification === null || notification;
 
     if (onlyShowServerMessage && response.data?.message)
@@ -17,11 +18,16 @@ const fetchFn = async ({ url, method, body, headers, notification }) => {
     if (notification === "init") {
       toast.success("عملیات با موفقیت انجام شد .");
     }
-    return {
-      data: response?.data,
-      // status: response?.status,
-    };
+
+    // Return the data directly if it's already in the correct format
+    if (response.data) {
+      return { data: response.data };
+    }
+
+    // If response.data is undefined, return the whole response
+    return { data: response };
   } catch (error) {
+    console.error('API Error:', error);
     return {
       error: {
         status: error?.response?.status || 500,
@@ -35,7 +41,6 @@ export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: (args) => {
     const { url, method, body, headers, notification, isPublic } = args || {};
-
     return fetchFn({ url, method, body, headers, notification, isPublic });
   },
   endpoints: () => ({}),
